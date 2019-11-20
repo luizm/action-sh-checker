@@ -1,11 +1,6 @@
 FROM alpine:latest
 LABEL "name"="sh-checker"
 LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
-LABEL "version"="0.1.0"
-LABEL "com.github.actions.name"="sh-checker"
-LABEL "com.github.actions.description"="Run shellcheck and shfmt on all sh files"
-LABEL "com.github.actions.icon"="terminal"
-LABEL "com.github.actions.color"="black"
 
 ENV shfmt_version 2.6.4
 ENV shellcheck_version 0.7.0
