@@ -17,9 +17,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: run the sh-checker
         uses: luizm/action-sh-checker@v0.1.2
-        with:
-          exclude-regex: "*/.terraform/*"
+        env:
+          SH_CHECKER_EXCLUDE_REGEX: "/.terraform/*"
 ```
 
-**Optional inputs**
-- exclude-regex
+**Environments:**
+
+- SH_CHECKER_EXCLUDE_REGEX: The regex to filter the files or directories that don't need to check.

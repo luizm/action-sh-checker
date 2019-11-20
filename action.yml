@@ -1,15 +1,9 @@
-name: 'sh-checker'
-description: 'Execute some shell scripts checks using shellcheck and shfmt'
-author: 'luizm'
-inputs:
-  exclude-regex:
-    description: 'Exclude some specific file or folder'
-    required: false
+name: "sh-checker"
+description: "Execute some shell scripts checks using shellcheck and shfmt"
+author: "luizm"
 runs:
-  using: 'docker'
+  using: "docker"
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.exclude-regex }}
 branding:
-  icon: 'terminal'
-  color: 'black'
+  icon: "terminal"
+  color: "black"
