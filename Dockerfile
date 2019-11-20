@@ -8,11 +8,10 @@ ENV temp_packages curl tar xz
 
 RUN apk add --no-cache bash
 RUN apk add --no-cache $temp_packages
-RUN curl -s "https://github.com/mvdan/sh/releases/download/v2.6.4/shfmt_v${shfmt_version}_linux_amd64" -o /usr/local/bin/shfmt && \
+RUN curl -Ls "https://github.com/mvdan/sh/releases/download/v2.6.4/shfmt_v${shfmt_version}_linux_amd64" -o /usr/local/bin/shfmt && \
     chmod +x /usr/local/bin/shfmt
 RUN	curl -Ls "https://shellcheck.storage.googleapis.com/shellcheck-v${shellcheck_version}.linux.x86_64.tar.xz" -o /tmp/shellcheck.tgz && \
     cd /tmp && tar -xf shellcheck.tgz && \
-    ls -la && \
     mv shellcheck-v${shellcheck_version}/shellcheck /usr/local/bin/ && \
     chmod +x /usr/local/bin/shellcheck
 
