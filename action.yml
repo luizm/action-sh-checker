@@ -2,18 +2,14 @@ name: 'sh-checker'
 description: 'Execute some shell scripts checks using shellcheck and shfmt'
 author: 'luizm'
 inputs:
-  include-path:
-    description: 'Include some specific file or folder.'
-    required: false
-  exclude-path:
-    description: 'Exclude some specific file or folder.'
+  exclude-regex:
+    description: 'Exclude some specific file or folder'
     required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.include-path }}
-    - ${{ inputs.exclude-path }}
+    - ${{ inputs.exclude-regex }}
 branding:
   icon: 'terminal'
   color: 'black'
