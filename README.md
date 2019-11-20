@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: run the sh-checker
+      - name: Run the sh-checker
         uses: luizm/action-sh-checker@v0.1.2
         env:
-          SH_CHECKER_EXCLUDE_REGEX: "/.terraform/*"
+          SH_CHECKER_EXCLUDE_REGEX: '/.terraform/*'
 ```
 
 **Environments:**
