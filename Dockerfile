@@ -1,0 +1,29 @@
+FROM alpine:latest
+LABEL "name"="sh-checker"
+LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
+LABEL "version"="0.1.0"
+LABEL "com.github.actions.name"="sh-checker"
+LABEL "com.github.actions.description"="Run shellcheck and shfmt on all sh files"
+LABEL "com.github.actions.icon"="terminal"
+LABEL "com.github.actions.color"="black"
+
+ENV shfmt_version 2.6.4
+ENV shellcheck_version 0.7.0
+ENV temp_packages curl tar xz
+
+RUN apk add --no-cache bash
+RUN apk add --no-cache $temp_packages
+RUN curl -s "https://github.com/mvdan/sh/releases/download/v2.6.4/shfmt_v${shfmt_version}_linux_amd64" -o /usr/local/bin/shfmt && \
+    chmod +x /usr/local/bin/shfmt
+RUN	curl -Ls "https://shellcheck.storage.googleapis.com/shellcheck-v${shellcheck_version}.linux.x86_64.tar.xz" -o /tmp/shellcheck.tgz && \
+    cd /tmp && tar -xf shellcheck.tgz && \
+    ls -la && \
+    mv shellcheck-v${shellcheck_version}/shellcheck /usr/local/bin/ && \
+    chmod +x /usr/local/bin/shellcheck
+
+RUN apk del $temp_packages
+RUN rm -rf /tmp/*
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
