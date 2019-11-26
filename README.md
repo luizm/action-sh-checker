@@ -21,6 +21,16 @@ jobs:
           SH_CHECKER_EXCLUDE_REGEX: '/.terraform/*'
 ```
 
-**Environments:**
+### Environments:
 
-- SH_CHECKER_EXCLUDE_REGEX: The regex to filter the files or directories that don't need to check.
+`SH_CHECKER_EXCLUDE_REGEX: '/.terraform/\'`
+
+The regex to filter the files or directories that don't need to check.
+
+`SH_CHECKER_SHFMT_DISABLE: "true"`
+
+If true, it will skip the shfmt. Default is false
+
+`SH_CHECKER_SHELLCHECK_DISABLE: "true"`
+
+If true, it will skip the shellcheck. Default is false

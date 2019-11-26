@@ -1,9 +1,9 @@
 name: "sh-checker"
-description: "Execute some shell scripts checks using shellcheck and shfmt"
+description: "Run shellcheck and/or shfmt on all sh files"
 author: "luizm"
 runs:
   using: "docker"
-  image: 'Dockerfile'
+  image: "Dockerfile"
 branding:
   icon: "terminal"
   color: "black"
