@@ -17,20 +17,16 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run the sh-checker
         uses: luizm/action-sh-checker@v0.1.0
-        env:
-          SH_CHECKER_EXCLUDE_REGEX: '/.terraform/*'
+        with:
+          sh_cheker_exclude: ".terraform ./dir/example.sh"
+          sh_checker_shfmt_disable: false
+          sh_checker_shellcheck_disable: false
 ```
 
-### Environments:
+### Inputs:
 
-`SH_CHECKER_EXCLUDE_REGEX: '/.terraform/\'`
+`sh_cheker_exclude: (Optional) Directory or file name that don't need to check.
 
-The regex to filter the files or directories that don't need to check.
+`sh_checker_shfmt_disable: (Optional) If true, it will skip the shfmt. Default is false
 
-`SH_CHECKER_SHFMT_DISABLE: "true"`
-
-If true, it will skip the shfmt. Default is false
-
-`SH_CHECKER_SHELLCHECK_DISABLE: "true"`
-
-If true, it will skip the shellcheck. Default is false
+`sh_checker_shellcheck_disable: (Optional) If true, it will skip the shellcheck. Default is false
