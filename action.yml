@@ -1,5 +1,5 @@
 name: "sh-checker"
-description: "Run shellcheck and/or shfmt on all sh files"
+description: "Run shellcheck and/or shfmt on all shell script files"
 author: "luizm"
 runs:
   using: "docker"
