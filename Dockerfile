@@ -4,7 +4,7 @@ LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
 
 ENV shfmt_version 3.0.1
 ENV shellcheck_version 0.7.0
-ENV temp_packages curl tar xz 
+ENV temp_packages curl tar xz
 
 RUN apk add --no-cache bash
 RUN apk add --no-cache $temp_packages
