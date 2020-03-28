@@ -16,14 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Run the sh-checker
-        uses: luizm/action-sh-checker@v0.1.0
+        uses: luizm/action-sh-checker@v0.1.3
         with:
-          sh_cheker_exclude: ".terraform ./dir/example.sh"
-          sh_checker_shfmt_disable: false
-          sh_checker_shellcheck_disable: false
+          sh_cheker_comment: true
+          sh_checker_shfmt_disable: true # default is false
+          sh_cheker_exclude: ".terraform ^path/dirty-dir ^dir/example.sh"
 ```
 
 ### Inputs:
+
+`sh_cheker_comment: (Optional) If true, it will show the errors as commentaries in the pull requests.
 
 `sh_cheker_exclude: (Optional) Directory or file name that don't need to check.
 

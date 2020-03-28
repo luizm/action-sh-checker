@@ -2,41 +2,74 @@
 
 cd "$GITHUB_WORKSPACE" || exit 1
 
-_show_sh_files(){
+# Internal functions
+_show_sh_files() {
 	local sh_files
 	sh_files="$(shfmt -f .)"
 
-	if [ -z "$INPUT_SH_CHECKER_EXCLUDE" ]; then
+	if [ -n "$INPUT_SH_CHECKER_EXCLUDE" ]; then
 		for i in $INPUT_SH_CHECKER_EXCLUDE; do
-			sh_files="$(echo "$sh_files" | grep -v "$i")"
+			sh_files="$(echo "$sh_files" | grep -Ev "$i")"
 		done
 	fi
 
 	echo "$sh_files"
 }
 
+_comment_on_github(){
+	local -r content="
+#### \`Shellcheck errors\`
+<details><summary>Shellcheck Errors</summary>
+\`\`\`
+$1
+\`\`\`
+</details>
+
+The files above have some shellcheck issues
+
+<details><summary>Shftm Errors</summary>
+\`\`\`
+$2
+\`\`\`
+</details>
+
+The files above have some formatting problems, you can use shfmt -w to fix them
+"
+
+	local -r payload=$(echo "$content" | jq -R --slurp '{body: .}')
+	local -r comment_url=$(jq -r .pull_request.comments_url < "$GITHUB_EVENT_PATH")
+
+	echo "Commenting on the pull request"
+	echo "$payload" | curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data @- "$comment_url" > /dev/null
+}
+
 sh_files="$(_show_sh_files)"
 
+# Validate sh files
 if [ -z "$INPUT_SH_CHECKER_SHELLCHECK_DISABLE" ]; then
 	echo -e "Validating shell scripts files using shellcheck\n"
 	# shellcheck disable=SC2086
-	shellcheck $sh_files || {
-		echo -e "\nThe files above have some shellcheck issues\n"
-		exit_code="1"
-	}
+	shellcheck_error="$(shellcheck $sh_files)"
+	exit_code="$?"
 fi
 
 if [ -z "$INPUT_SH_CHECKER_SHFMT_DISABLE" ]; then
 	echo -e "Validating shell scripts files using shfmt\n"
 	# shellcheck disable=SC2086
-	shfmt -d $sh_files || {
-		echo -e "\nThe files above have some formatting problems, you can use shfmt -w to fix them\n"
-		exit_code="1"
-	}
+	shfmt_error=$(shfmt -d $sh_files)
+	exit_code="$?"
 fi
 
-if [ -z "$exit_code" ]; then
+if [ "$exit_code" != 0 ]; then
+	if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$INPUT_SH_CHECKER_COMMENT" == "true" ]; then
+		_comment_on_github "$shellcheck_error" "$shfmt_error"
+	fi
+	echo -e "$shellcheck_error"
+	echo -e "\nThe files above have some shellcheck issues\n"
+	echo -e "$shfmt_error"
+	echo -e "\nThe files above have some formatting problems, you can use shfmt -w to fix them\n"
+	exit 1
+else
 	echo -e "All sh files found looks fine :)\n"
+	exit 0
 fi
-
-exit "${exit_code:-0}"
