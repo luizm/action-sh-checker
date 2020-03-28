@@ -80,8 +80,6 @@ if [ "$SHFMT_DISABLE" != "1" ]; then
 fi
 
 if [ "$exit_code" != 0 ]; then
-	echo "$GITHUB_EVENT_NAME"
-	echo "$SH_CHECKER_COMMENT"
 	if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$SH_CHECKER_COMMENT" == "1" ]; then
 		echo "comment"
 		_comment_on_github "$shellcheck_error" "$shfmt_error"
