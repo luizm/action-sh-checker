@@ -39,15 +39,19 @@ _show_sh_files() {
 _comment_on_github(){
 	local -r content="
 #### \`sh-checker report\`
-<details><summary>sh-checker rrrors</summary>
+<details>
+<summary>sh-checker rrrors</summary>
+
 \`\`\`
-${1:-There is no shellchecl errors}
+${1:-There is no shellcheck errors}
 \`\`\`
 </details>
 
 The files above have some shellcheck issues
 
-<details><summary>shfmt rrrors</summary>
+<details>
+<summary>shfmt rrrors</summary>
+
 \`\`\`
 ${2:-There is no shfmt errors}
 \`\`\`
