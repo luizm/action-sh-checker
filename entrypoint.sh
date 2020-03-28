@@ -40,20 +40,20 @@ _comment_on_github(){
 	local -r content="
 #### \`sh-checker report\`
 <details>
-<summary>sh-checker rrrors</summary>
+<summary>sh-checker output</summary>
 
 \`\`\`
-${1:-There is no shellcheck errors}
+${1:-No errors or shellcheck is disabled}
 \`\`\`
 </details>
 
 The files above have some shellcheck issues
 
 <details>
-<summary>shfmt rrrors</summary>
+<summary>shfmt output</summary>
 
 \`\`\`
-${2:-There is no shfmt errors}
+${2:-No errors or shfmt is disabled}
 \`\`\`
 </details>
 
@@ -94,7 +94,7 @@ if [ "$exit_code" != 0 ]; then
 	}
 	test "$SHFMT_DISABLE" != "1" && {
 		echo -e "$shfmt_error"
-		echo -e "\nThe files above have some formatting problems, you can use shfmt -w to fix them\n"
+		echo -e "\nThe files above have some formatting problems, you can use \`shfmt -w\` to fix them\n"
 	}
 	exit 1
 else
