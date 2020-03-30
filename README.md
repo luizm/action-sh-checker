@@ -21,7 +21,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           sh_checker_comment: true
-          sh_checker_shfmt_disable: true
           sh_checker_exclude: ".terraform ^dir/example.sh"
 ```
 
