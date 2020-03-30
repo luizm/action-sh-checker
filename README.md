@@ -38,4 +38,4 @@ jobs:
 
 ### Secrets
 
-GITHUB_TOKEN - (Optional) The GitHub API token used to post comments to pull requests. Not required if the `sh_checker_comment` input is set to false.
+`GITHUB_TOKEN`: (Optional) The GitHub API token used to post comments to pull requests. Not required if the `sh_checker_comment` input is set to false.
