@@ -40,7 +40,7 @@ _comment_on_github(){
 	local -r content="
 #### \`sh-checker report\`
 <details>
-<summary>sh-checker output</summary>
+<summary>shellcheck output</summary>
 
 \`\`\`
 ${1:-No errors or shellcheck is disabled}
