@@ -73,17 +73,17 @@ if [ "$SHELLCHECK_DISABLE" != "1" ]; then
 	echo -e "Validating shell scripts files using shellcheck\n"
 	# shellcheck disable=SC2086
 	shellcheck_error="$(shellcheck $sh_files)"
-	exit_code="$?"
+	shellcheck_code="$?"
 fi
 
 if [ "$SHFMT_DISABLE" != "1" ]; then
 	echo -e "Validating shell scripts files using shfmt\n"
 	# shellcheck disable=SC2086
 	shfmt_error=$(shfmt -d $sh_files)
-	exit_code="$?"
+	shfmt_code="$?"
 fi
 
-if [ "$exit_code" != 0 ]; then
+if [ "$shellcheck_code" != 0 ] || [ "$shfmt_code" != 0 ]; then
 	if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$SH_CHECKER_COMMENT" == "1" ]; then
 		echo "comment"
 		_comment_on_github "$shellcheck_error" "$shfmt_error"
