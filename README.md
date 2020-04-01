@@ -24,6 +24,8 @@ jobs:
           sh_checker_exclude: ".terraform ^dir/example.sh"
 ```
 
+![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
+
 ### Inputs:
 
 `sh_checker_exclude`: (Optional) Directory or file name that don't need to check.
@@ -33,8 +35,6 @@ jobs:
 `sh_checker_shellcheck_disable`: (Optional) If true, it will skip the shellcheck. Default is false
 
 `sh_checker_comment`: (Optional) If true, it will show the errors as commentaries in the pull requests. Default is false
-
-![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
 
 ### Secrets
 
