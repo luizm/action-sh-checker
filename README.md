@@ -34,7 +34,7 @@ jobs:
 
 `sh_checker_comment`: (Optional) If true, it will show the errors as commentaries in the pull requests. Default is false
 
-<img width="804" alt="Screen Shot 2020-03-28 at 15 49 58" src="https://user-images.githubusercontent.com/6004689/77831164-3a4ea400-710c-11ea-85ae-778e1df3c469.png">
+![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
 
 ### Secrets
 
