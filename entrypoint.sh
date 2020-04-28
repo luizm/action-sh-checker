@@ -68,6 +68,11 @@ The files above have some formatting problems, you can use \`shfmt -w\` to fix t
 
 sh_files="$(_show_sh_files)"
 
+test "$sh_files" || {
+	echo "No shell scripts found"
+	exit 0
+}
+
 # Validate sh files
 if [ "$SHELLCHECK_DISABLE" != "1" ]; then
 	echo -e "Validating shell scripts files using shellcheck\n"
