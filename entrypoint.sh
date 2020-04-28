@@ -74,6 +74,9 @@ test "$sh_files" || {
 }
 
 # Validate sh files
+shellcheck_code=0
+shfmt_code=0
+
 if [ "$SHELLCHECK_DISABLE" != "1" ]; then
 	echo -e "Validating shell scripts files using shellcheck\n"
 	# shellcheck disable=SC2086
