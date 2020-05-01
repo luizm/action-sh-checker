@@ -19,6 +19,7 @@ jobs:
         uses: luizm/action-sh-checker@v0.1.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHELLCHECK_OPTS: -e SC1004 # It is posible to exclude some shellcheck warnings.
         with:
           sh_checker_comment: true
           sh_checker_exclude: ".terraform ^dir/example.sh"
