@@ -76,6 +76,7 @@ test "$sh_files" || {
 # Validate sh files
 shellcheck_code=0
 shfmt_code=0
+exit_code=0
 
 if [ "$SHELLCHECK_DISABLE" != "1" ]; then
 	echo -e "Validating shell scripts files using shellcheck\n"
@@ -91,27 +92,29 @@ if [ "$SHFMT_DISABLE" != "1" ]; then
 	shfmt_code="$?"
 fi
 
+# Output
 if [ "$SHELLCHECK_DISABLE" != 1 ]; then
 	test "$shellcheck_code" != "0" && {
 		echo -e "$shellcheck_error"
 		echo -e "\nThe files above have some shellcheck issues\n"
-
-		if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$SH_CHECKER_COMMENT" == "1" ]; then
-			_comment_on_github "$shellcheck_error"
-		fi
 	}
-	exit 1
-elif [ "$SHFMT_DISABLE" != 1 ]; then
+	exit_code=1
+fi
+
+if [ "$SHFMT_DISABLE" != 1 ]; then
 	test "$shfmt_code" != "0" && {
 		echo -e "$shfmt_error"
 		echo -e "\nThe files above have some formatting problems, you can use \`shfmt -w\` to fix them\n"
-
-		if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$SH_CHECKER_COMMENT" == "1" ]; then
-			_comment_on_github "$shfmt_error"
-		fi
 	}
-	exit 1
-else
-	echo -e "All sh files found looks fine :)\n"
-	exit 0
+	exit_code=1
 fi
+
+if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$SH_CHECKER_COMMENT" == "1" ]; then
+	_comment_on_github "$shellcheck_error" "$shfmt_error"
+fi
+
+if [ "$shellcheck_code" != 1 ] || [ "$shfmt_code" != 1 ]; then
+	echo -e "All sh files found looks fine :)\n"
+fi
+
+exit "$exit_code"
