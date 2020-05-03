@@ -113,7 +113,7 @@ if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$SH_CHECKER_COMMENT" == "1" 
 	_comment_on_github "$shellcheck_error" "$shfmt_error"
 fi
 
-if [ "$shellcheck_code" != 1 ] || [ "$shfmt_code" != 1 ]; then
+if [ "$shellcheck_code" != 1 ] && [ "$shfmt_code" != 1 ]; then
 	echo -e "All sh files found looks fine :)\n"
 fi
 
