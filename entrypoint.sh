@@ -92,21 +92,21 @@ if [ "$SHFMT_DISABLE" != "1" ]; then
 	shfmt_code="$?"
 fi
 
-# Output
+# Outputs
 if [ "$SHELLCHECK_DISABLE" != 1 ]; then
 	test "$shellcheck_code" != "0" && {
 		echo -e "$shellcheck_error"
 		echo -e "\nThe files above have some shellcheck issues\n"
+		exit_code=1
 	}
-	exit_code=1
 fi
 
 if [ "$SHFMT_DISABLE" != 1 ]; then
 	test "$shfmt_code" != "0" && {
 		echo -e "$shfmt_error"
 		echo -e "\nThe files above have some formatting problems, you can use \`shfmt -w\` to fix them\n"
+		exit_code=1
 	}
-	exit_code=1
 fi
 
 if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ "$SH_CHECKER_COMMENT" == "1" ]; then
