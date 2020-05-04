@@ -69,7 +69,7 @@ The files above have some formatting problems, you can use \`shfmt -w\` to fix t
 sh_files="$(_show_sh_files)"
 
 test "$sh_files" || {
-	echo "No shell scripts found"
+	echo "No shell scripts found in this repository. Make a sure that you did a checkout :)"
 	exit 0
 }
 
