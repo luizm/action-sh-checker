@@ -5,18 +5,16 @@ LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
 ARG shfmt_version 3.0.1
 ARG shellcheck_version 0.7.0
 
-RUN apk add --no-cache bash jq curl
-RUN apk add --no-cache --virtual .build-deps tar xz
-RUN curl -Ls "https://github.com/mvdan/sh/releases/download/v${shfmt_version}/shfmt_v${shfmt_version}_linux_amd64" -o /usr/local/bin/shfmt && \
-    chmod +x /usr/local/bin/shfmt
-RUN	curl -Ls "https://shellcheck.storage.googleapis.com/shellcheck-v${shellcheck_version}.linux.x86_64.tar.xz" -o /tmp/shellcheck.tgz && \
-    cd /tmp && tar -xf shellcheck.tgz && \
-    mv shellcheck-v${shellcheck_version}/shellcheck /usr/local/bin/ && \
-    chmod +x /usr/local/bin/shellcheck
-
-RUN apk del .build-deps
-RUN rm -rf /tmp/*
+RUN apk add --no-cache bash jq curl \
+    && apk add --no-cache --virtual .build-deps tar \
+    && wget "https://github.com/mvdan/sh/releases/download/v${shfmt_version}/shfmt_v${shfmt_version}_linux_amd64" -O /usr/local/bin/shfmt \
+    && chmod +x /usr/local/bin/shfmt \
+    && wget "https://shellcheck.storage.googleapis.com/shellcheck-v${shellcheck_version}.linux.x86_64.tar.xz" -O- | tar xJ -C /usr/local/bin/ --strip-components=1 --wildcards '*/shellcheck' && \
+    && chmod +x /usr/local/bin/shellcheck \
+    && apk del .build-deps \
+    && rm -rf /tmp/*
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
