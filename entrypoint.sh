@@ -59,6 +59,9 @@ ${2:-No errors or shfmt is disabled}
 </details>
 
 The files above have some formatting problems, you can use \`shfmt -w\` to fix them
+
+To get the full details about this [job]("https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")
+
 "
 	local -r payload=$(echo "$content" | jq -R --slurp '{body: .}')
 	local -r comment_url=$(jq -r .pull_request.comments_url <"$GITHUB_EVENT_PATH")
