@@ -29,7 +29,7 @@ jobs:
 
 ### Inputs
 
-`sh_checker_exclude`: (Optional) Directory or file name that don't need to check.
+`sh_checker_exclude`: (Optional) Directory or file name that doesn't need to be checked.
 
 `sh_checker_shfmt_disable`: (Optional) If true, it will skip the shfmt. Default is false
 
