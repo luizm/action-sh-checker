@@ -20,6 +20,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SHELLCHECK_OPTS: -e SC1004 # It is posible to exclude some shellcheck warnings.
+          SHFMT_OPTS: -s # It is posible to pass arguments to shftm
         with:
           sh_checker_comment: true
           sh_checker_exclude: ".terraform ^dir/example.sh"
