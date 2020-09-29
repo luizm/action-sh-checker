@@ -28,6 +28,11 @@ jobs:
 
 ![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
 
+### Environment Variables 
+
+`SHELLCHECK_OPTS`: Used to specify a shellcheck arguments
+`SHFMT_OPTS`: Used to specify a shfmt argments
+
 ### Inputs
 
 `sh_checker_exclude`: (Optional) Directory or file name that doesn't need to be checked.
