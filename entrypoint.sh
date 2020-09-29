@@ -6,7 +6,6 @@ SHELLCHECK_DISABLE=0
 SHFMT_DISABLE=0
 SH_CHECKER_COMMENT=0
 
-
 if [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "1" ] || [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "true" ]; then
 	SHELLCHECK_DISABLE=1
 fi
@@ -92,7 +91,7 @@ fi
 if [ "$SHFMT_DISABLE" != "1" ]; then
 	echo -e "Validating shell scripts files using shfmt\n"
 	# shellcheck disable=SC2086
-	shfmt_error=$(shfmt -d $sh_files)
+	shfmt_error="$(eval shfmt $SHFMT_OPTS -d $sh_files)"
 	shfmt_code="$?"
 fi
 
