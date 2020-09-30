@@ -31,6 +31,7 @@ jobs:
 ### Environment Variables 
 
 `SHELLCHECK_OPTS`: Used to specify a shellcheck arguments
+
 `SHFMT_OPTS`: Used to specify a shfmt argments
 
 ### Inputs
