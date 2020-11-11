@@ -14,6 +14,10 @@ inputs:
   sh_checker_shellcheck_disable:
     description: "If true, it will skip the shellcheck. Default is false"
     required: false
+  sh_checker_checkbashisms_enable:
+    description: "If true, run checkbashisms tool against scripts. Default is false"
+    required: false
+    default: "false"
   sh_checker_comment:
     description: "If true, it will show the errors as commentaries in the pull requests. Default is false"
     required: false

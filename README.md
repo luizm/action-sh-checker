@@ -29,7 +29,7 @@ jobs:
           sh_checker_exclude: ".terraform ^dir/example.sh"
 ```
 
-### Environment Variables 
+### Environment Variables
 
 `SHELLCHECK_OPTS`: Used to specify a shellcheck arguments
 
@@ -44,6 +44,8 @@ jobs:
 `sh_checker_shellcheck_disable`: (Optional) If true, it will skip the shellcheck. Default is false
 
 `sh_checker_comment`: (Optional) If true, it will show the errors as commentaries in the pull requests. Default is false
+
+`sh_checker_checkbashisms_enable`: (Optional) If true, run checkbashisms tool against scripts. Default is false
 
 ### Secrets
 
