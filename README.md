@@ -2,6 +2,9 @@
 
 A GitHub Action that performs static analysis for shell scripts using [shellcheck](https://github.com/koalaman/shellcheck) and [shfmt](https://github.com/mvdan/sh)
 
+![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
+
+
 ## Usage
 
 Job example to check all sh files but ignore the directory `.terraform` and file `dir/example.sh`
@@ -25,8 +28,6 @@ jobs:
           sh_checker_comment: true
           sh_checker_exclude: ".terraform ^dir/example.sh"
 ```
-
-![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
 
 ### Environment Variables 
 
