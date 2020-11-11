@@ -5,6 +5,7 @@ cd "$GITHUB_WORKSPACE" || exit 1
 SHELLCHECK_DISABLE=0
 SHFMT_DISABLE=0
 SH_CHECKER_COMMENT=0
+CHECKBASHISMS_ENABLE=0
 
 if [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "1" ] || [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "true" ]; then
 	SHELLCHECK_DISABLE=1
@@ -20,6 +21,10 @@ fi
 
 if [ "$SHELLCHECK_DISABLE" == "1" ] && [ "$SHFMT_DISABLE" == "1" ]; then
 	echo "All checks are disabled, it's mean that \`sh_checker_shellcheck_disable\` and \`sh_checker_shfmt_disable\` are true"
+fi
+
+if [ "${INPUT_SH_CHECKER_CHECKBASHISMS_ENABLE}" == "1" ] || [ "${INPUT_SH_CHECKER_CHECKBASHISMS_ENABLE}" == "true" ]; then
+	CHECKBASHISMS_ENABLE=1
 fi
 
 # Internal functions
@@ -78,6 +83,7 @@ test "$sh_files" || {
 
 # Validate sh files
 shellcheck_code=0
+checkbashisms_code=0
 shfmt_code=0
 exit_code=0
 
@@ -95,6 +101,13 @@ if [ "$SHFMT_DISABLE" != "1" ]; then
 	shfmt_code="$?"
 fi
 
+if [ "$CHECKBASHISMS_ENABLE" == "1" ]; then
+	echo -e "Validating 'bashisms' for shell scripts files using checkbashisms\n"
+	# shellcheck disable=SC2086
+	checkbashisms_error="$(checkbashisms $sh_files)"
+	checkbashisms_code="$?"
+fi
+
 # Outputs
 if [ "$SHELLCHECK_DISABLE" != 1 ]; then
 	test "$shellcheck_code" != "0" && {
@@ -108,6 +121,14 @@ if [ "$SHFMT_DISABLE" != 1 ]; then
 	test "$shfmt_code" != "0" && {
 		echo -e "$shfmt_error"
 		echo -e "\nThe files above have some formatting problems, you can use \`shfmt -w\` to fix them\n"
+		exit_code=1
+	}
+fi
+
+if [ "$CHECKBASHISMS_ENABLE" == "1" ]; then
+	test "$checkbashisms_code" != "0" && {
+		echo -e "$checkbashisms_error"
+		echo -e "\nThe files above have some checkbashisms issues\n"
 		exit_code=1
 	}
 fi
