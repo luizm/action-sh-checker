@@ -1,6 +1,6 @@
 # sh-checker
 
-A [GitHub action](https://docs.github.com/en/free-pro-team@latest/actions) that performs static analysis of shell scripts using [shellcheck](https://github.com/koalaman/shellcheck) and [shfmt](https://github.com/mvdan/sh)
+A [GitHub action](https://docs.github.com/en/free-pro-team@latest/actions) that performs static analysis of shell scripts using [shellcheck](https://github.com/koalaman/shellcheck) and [shfmt](https://github.com/mvdan/sh).
 
 ![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
 
