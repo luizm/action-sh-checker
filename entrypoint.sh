@@ -90,7 +90,7 @@ exit_code=0
 if [ "$SHELLCHECK_DISABLE" != "1" ]; then
 	echo -e "Validating shell scripts files using shellcheck\n"
 	# shellcheck disable=SC2086
-	shellcheck_error=$( (shellcheck $sh_files) | while read -r x; do echo "$x"; done; )
+	shellcheck_error=$( (shellcheck $sh_files) | while read -r x; do echo "$x"; done)
 	test -n "$shellcheck_error" && {
 		shellcheck_code="1"
 	}
