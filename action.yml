@@ -21,6 +21,10 @@ inputs:
   sh_checker_comment:
     description: "If true, it will show the errors as commentaries in the pull requests. Default is false"
     required: false
+  sh_checker_only_diff:
+    description: "If true, only files that have been modified will be checked. Default is false"
+    required: false
+    default: "false"
 runs:
   using: "docker"
   image: "Dockerfile"
