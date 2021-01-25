@@ -19,11 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Run the sh-checker
-        uses: luizm/action-sh-checker@v0.1.8
+        uses: luizm/action-sh-checker@v0.1.12
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional if sh_checker_comment is false.
-          SHELLCHECK_OPTS: -e SC1004 # Optional: exclude some shellcheck warnings.
-          SHFMT_OPTS: -s # Optional: pass arguments to shfmt.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHELLCHECK_OPTS: -e SC1004 # exclude some shellcheck warnings.
+          SHFMT_OPTS: -s # arguments to shfmt.
         with:
           sh_checker_comment: true
           sh_checker_exclude: ".terraform ^dir/example.sh"
@@ -37,16 +37,17 @@ jobs:
 
 ### Inputs
 
-`sh_checker_exclude`: (Optional) Directory or file name that doesn't need to be checked.
+`sh_checker_exclude`: (optional) Directory or file name that doesn't need to be checked.
 
-`sh_checker_shfmt_disable`: (Optional) If true, it will skip shfmt. Default is false.
+`sh_checker_comment`: (optional) If true, it will show the errors as commentaries in the pull requests. Default is false.
 
-`sh_checker_shellcheck_disable`: (Optional) If true, it will skip shellcheck. Default is false.
+`sh_checker_only_diff`: (optional) If true, only files that had been modified will be checked. Default is false.
 
-`sh_checker_comment`: (Optional) If true, it will show the errors as commentaries in the pull requests. Default is false.
+`sh_checker_shfmt_disable`: (optional) If true, it will skip shfmt. Default is false.
 
-`sh_checker_checkbashisms_enable`: (Optional) If true, run checkbashisms tool against scripts. Default is false.
+`sh_checker_shellcheck_disable`: (optional) If true, it will skip shellcheck. Default is false.
 
+`sh_checker_checkbashisms_enable`: (optional) If true, run checkbashisms tool against scripts. Default is false.
 ### Secrets
 
-`GITHUB_TOKEN`: (Optional) The GitHub API token used to post comments to pull requests. Not required if `sh_checker_comment` is set to false.
+`GITHUB_TOKEN`: (optional) The GitHub API token used to post comments to pull requests. Not required if `sh_checker_comment` is set to false.

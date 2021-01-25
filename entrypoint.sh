@@ -6,6 +6,7 @@ SHELLCHECK_DISABLE=0
 SHFMT_DISABLE=0
 SH_CHECKER_COMMENT=0
 CHECKBASHISMS_ENABLE=0
+ONLY_DIFF=1
 
 if [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "1" ] || [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "true" ]; then
 	SHELLCHECK_DISABLE=1
@@ -27,6 +28,10 @@ if [ "${INPUT_SH_CHECKER_CHECKBASHISMS_ENABLE}" == "1" ] || [ "${INPUT_SH_CHECKE
 	CHECKBASHISMS_ENABLE=1
 fi
 
+if [ "${INPUT_SH_CHECKER_ONLY_DIFF}" == "1" ] || [ "${INPUT_SH_CHECKER_ONLY_DIFF}" == "true" ]; then
+	ONLY_DIFF=1
+fi
+
 # Internal functions
 _show_sh_files() {
 	local sh_files
@@ -44,27 +49,24 @@ _show_sh_files() {
 _comment_on_github() {
 	local -r content="
 #### \`sh-checker report\`
+
+To get the full details, please check in the [job]("https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID") output.
+
 <details>
-<summary>shellcheck output</summary>
+<summary>shellcheck errors</summary>
 
 \`\`\`
 ${1:-No errors or shellcheck is disabled}
 \`\`\`
 </details>
 
-The files above have some shellcheck issues
-
 <details>
-<summary>shfmt output</summary>
+<summary>shfmt erros</summary>
 
 \`\`\`
 ${2:-No errors or shfmt is disabled}
 \`\`\`
 </details>
-
-The files above have some formatting problems, you can use \`shfmt -w\` to fix them
-
-To get the full details about this [job]("https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID")
 
 "
 	local -r payload=$(echo "$content" | jq -R --slurp '{body: .}')
@@ -74,7 +76,11 @@ To get the full details about this [job]("https://github.com/$GITHUB_REPOSITORY/
 	echo "$payload" | curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data @- "$comment_url" >/dev/null
 }
 
-sh_files="$(_show_sh_files)"
+if [ "$ONLY_DIFF" == "1" ]; then
+	sh_files="$(git diff --name-only "$GITHUB_BASE_REF"..."$GITHUB_HEAD_REF" | cat)"
+else
+	sh_files="$(_show_sh_files)"
+fi
 
 test "$sh_files" || {
 	echo "No shell scripts found in this repository. Make a sure that you did a checkout :)"
