@@ -6,7 +6,7 @@ SHELLCHECK_DISABLE=0
 SHFMT_DISABLE=0
 SH_CHECKER_COMMENT=0
 CHECKBASHISMS_ENABLE=0
-ONLY_DIFF=1
+ONLY_DIFF=0
 
 if [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "1" ] || [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "true" ]; then
 	SHELLCHECK_DISABLE=1
@@ -83,7 +83,11 @@ else
 fi
 
 test "$sh_files" || {
-	echo "No shell scripts found in this repository. Make a sure that you did a checkout :)"
+	if ((ONLY_DIFF == 1)); then
+	  echo "No shell scripts were changed."
+	else
+	  echo "No shell scripts found in this repository. Make a sure that you did a checkout :)"
+	fi
 	exit 0
 }
 
