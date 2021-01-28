@@ -137,7 +137,12 @@ if [ "$CHECKBASHISMS_ENABLE" == "1" ]; then
 	test "$checkbashisms_code" != "0" && {
 		echo -e "$checkbashisms_error"
 		echo -e "\nThe files above have some checkbashisms issues\n"
-		exit_code=1
+		if ((checkbashisms_code != 4)); then
+		  exit_code=1
+		else
+		  # see https://github.com/duggan/shlint/blob/0fcd979319e3f37c2cd53ccea0b51e16fda710a1/lib/checkbashisms#L489
+		  echo -e "Ignoring 'could not find any possible bashisms in bash script' issues"
+		fi
 	}
 fi
 
