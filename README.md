@@ -41,8 +41,6 @@ jobs:
 
 `sh_checker_comment`: (optional) If true, it will show the errors as commentaries in the pull requests. Default is false.
 
-`sh_checker_only_diff`: (optional) If true, only files that have been modified will be checked. Default is false.
-
 `sh_checker_shfmt_disable`: (optional) If true, it will skip shfmt. Default is false.
 
 `sh_checker_shellcheck_disable`: (optional) If true, it will skip shellcheck. Default is false.
