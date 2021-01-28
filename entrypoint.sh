@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 cd "$GITHUB_WORKSPACE" || exit 1
 
@@ -6,7 +7,6 @@ SHELLCHECK_DISABLE=0
 SHFMT_DISABLE=0
 SH_CHECKER_COMMENT=0
 CHECKBASHISMS_ENABLE=0
-ONLY_DIFF=1
 
 if [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "1" ] || [ "${INPUT_SH_CHECKER_SHELLCHECK_DISABLE}" == "true" ]; then
 	SHELLCHECK_DISABLE=1
@@ -26,10 +26,6 @@ fi
 
 if [ "${INPUT_SH_CHECKER_CHECKBASHISMS_ENABLE}" == "1" ] || [ "${INPUT_SH_CHECKER_CHECKBASHISMS_ENABLE}" == "true" ]; then
 	CHECKBASHISMS_ENABLE=1
-fi
-
-if [ "${INPUT_SH_CHECKER_ONLY_DIFF}" == "1" ] || [ "${INPUT_SH_CHECKER_ONLY_DIFF}" == "true" ]; then
-	ONLY_DIFF=1
 fi
 
 # Internal functions
@@ -76,11 +72,7 @@ ${2:-No errors or shfmt is disabled}
 	echo "$payload" | curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data @- "$comment_url" >/dev/null
 }
 
-if [ "$ONLY_DIFF" == "1" ]; then
-	sh_files="$(git diff --name-only "$GITHUB_BASE_REF"..."$GITHUB_HEAD_REF" | cat)"
-else
-	sh_files="$(_show_sh_files)"
-fi
+sh_files="$(_show_sh_files)"
 
 test "$sh_files" || {
 	echo "No shell scripts found in this repository. Make a sure that you did a checkout :)"
