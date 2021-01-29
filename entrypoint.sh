@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 cd "$GITHUB_WORKSPACE" || exit 1
 
