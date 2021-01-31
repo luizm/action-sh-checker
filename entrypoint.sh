@@ -153,7 +153,7 @@ if ((SHFMT_DISABLE != 1)); then
   else
     # shfmt returns 0 or 1: https://github.com/mvdan/sh/blob/dbbad59b44d586c0f3d044a3820c18c41b495e2a/cmd/shfmt/main.go#L72
     ((exit_code |= 8))
-    printf "\\n'shfmt %s' returned error %d finding the following formatting issues:\\n" "$shfmt_code" "$SHFMT_OPTS"
+    printf "\\n'shfmt %s' returned error %d finding the following formatting issues:\\n" "$SHFMT_OPTS" "$shfmt_code" 
     printf '%s' "$shfmt_error"
     printf '\n'
     printf "You can use 'shfmt %s -w filename' to reformat each filename to meet shfmt's requirements.\\n" "$SHFMT_OPTS"
