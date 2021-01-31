@@ -124,40 +124,52 @@ shfmt_error='shfmt checking is disabled.'
 if ((SHELLCHECK_DISABLE != 1)); then
   printf "Validating %d shell script(s) using 'shellcheck %s':\\n" "${#sh_files[@]}" "$SHELLCHECK_OPTS"
   IFS=$' \t\n' read -d '' -ra args <<<"$SHELLCHECK_OPTS"
-  shellcheck_error="$(shellcheck "${args[@]}" "${sh_files[@]}" 2>&1)"
+  shellcheck_output="$(shellcheck "${args[@]}" "${sh_files[@]}" 2>&1)"
   shellcheck_code=$?
   if ((shellcheck_code == 0)); then
-    printf "'shellcheck %s' found no issues.\\n" "$SHELLCHECK_OPTS"
+    printf -v shellcheck_error "'shellcheck %s' found no issues.\\n" "$SHELLCHECK_OPTS"
   else
     # .shellcheck returns 0-4: https://github.com/koalaman/shellcheck/blob/dff8f9492a153b4ad8ac7d085136ce532e8ea081/shellcheck.hs#L191
     exit_code=$shellcheck_code
-    printf "\\n'shellcheck %s' returned error %s finding the following syntactical issues:\\n" "$SHELLCHECK_OPTS" "$shellcheck_code"
-    printf '%s' "$shellcheck_error"
-    printf '\n'
-    printf 'You can address these issues in three ways:\n'
-    printf '1. Manually correct the issue in the offending shell script;\n'
-    printf '2. Disable specific issues by adding the comment:\n'
-    printf '  # shellcheck disable=NNNN\n'
-    printf 'above the line that contains the issue, where NNNN is the error code;\n'
-    printf "3. Add '-e NNNN' to the SHELLCHECK_OPTS setting in your .yml action file.\\n"
+    read -r -d '' shellcheck_error <<EOF
+
+'shellcheck $SHELLCHECK_OPTS' returned error $shellcheck_code finding the following syntactical issues:
+-----
+$shellcheck_output
+-----
+You can address these issues in on of three ways:\n'
+1. Manually correct the issue in the offending shell script;\n'
+2. Disable specific issues by adding the comment:\n'
+  # shellcheck disable=NNNN\n'
+above the line that contains the issue, where NNNN is the error code;\n'
+3. Add '-e NNNN' to the SHELLCHECK_OPTS setting in your .yml action file.
+
+EOF
   fi
+  printf '%s' "$shellcheck_error"
 fi
 
 if ((SHFMT_DISABLE != 1)); then
   printf "Validating %d shell script(s) using 'shfmt %s':\\n" "${#sh_files[@]}" "$SHFMT_OPTS"
   IFS=$' \t\n' read -d '' -ra args <<<"$SHFMT_OPTS"
-  shfmt_error="$(shfmt "${args[@]}" "${sh_files[@]}" 2>&1)"
+  shfmt_output="$(shfmt "${args[@]}" "${sh_files[@]}" 2>&1)"
   shfmt_code=$?
   if ((shfmt_code == 0)); then
-    printf "'shfmt %s' found no issues.\\n" "$SHFMT_OPTS"
+    printf -v shfmt_error "'shfmt %s' found no issues.\\n" "$SHFMT_OPTS"
   else
     # shfmt returns 0 or 1: https://github.com/mvdan/sh/blob/dbbad59b44d586c0f3d044a3820c18c41b495e2a/cmd/shfmt/main.go#L72
     ((exit_code |= 8))
-    printf "\\n'shfmt %s' returned error %d finding the following formatting issues:\\n" "$SHFMT_OPTS" "$shfmt_code" 
-    printf '%s' "$shfmt_error"
-    printf '\n'
-    printf "You can use 'shfmt %s -w filename' to reformat each filename to meet shfmt's requirements.\\n" "$SHFMT_OPTS"
+    read -r -d '' shfmt_error <<EOF
+
+'shfmt $SHFMT_OPTS' returned error $shfmt_code finding the following formatting issues:
+-----
+$shfmt_output
+-----
+You can use 'shfmt $SHFMT_OPTS -w filename' to reformat each filename to meet shfmt's requirements.
+
+EOF
   fi
+  printf '%s' "$shfmt_error"
 fi
 
 if ((CHECKBASHISMS_ENABLE == 1)); then
