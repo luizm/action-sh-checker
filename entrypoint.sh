@@ -66,7 +66,7 @@ _show_sh_files() {
 
 _comment_on_github() {
   local content
-  read -r -d '' content <<EOF
+  IFS= read -r -d '' content <<EOF
 #### \`sh-checker report\`
 
 To get the full details, please check in the [job]("https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID") output.
@@ -131,18 +131,19 @@ if ((SHELLCHECK_DISABLE != 1)); then
   else
     # .shellcheck returns 0-4: https://github.com/koalaman/shellcheck/blob/dff8f9492a153b4ad8ac7d085136ce532e8ea081/shellcheck.hs#L191
     exit_code=$shellcheck_code
-    read -r -d '' shellcheck_error <<EOF
+    IFS= read -r -d '' shellcheck_error <<EOF
 
 'shellcheck $SHELLCHECK_OPTS' returned error $shellcheck_code finding the following syntactical issues:
------
+\-\-\-\-\-
 $shellcheck_output
------
-You can address these issues in on of three ways:\n'
-1. Manually correct the issue in the offending shell script;\n'
-2. Disable specific issues by adding the comment:\n'
-  # shellcheck disable=NNNN\n'
-above the line that contains the issue, where NNNN is the error code;\n'
+\-\-\-\-\-
+You can address these issues in on of three ways:
+1. Manually correct the issue in the offending shell script;
+2. Disable specific issues by adding the comment:
+  # shellcheck disable=NNNN
+above the line that contains the issue, where NNNN is the error code;
 3. Add '-e NNNN' to the SHELLCHECK_OPTS setting in your .yml action file.
+
 
 EOF
   fi
@@ -159,13 +160,15 @@ if ((SHFMT_DISABLE != 1)); then
   else
     # shfmt returns 0 or 1: https://github.com/mvdan/sh/blob/dbbad59b44d586c0f3d044a3820c18c41b495e2a/cmd/shfmt/main.go#L72
     ((exit_code |= 8))
-    read -r -d '' shfmt_error <<EOF
+    IFS= read -r -d '' shfmt_error <<EOF
 
 'shfmt $SHFMT_OPTS' returned error $shfmt_code finding the following formatting issues:
------
+\-\-\-\-\-
 $shfmt_output
------
+\-\-\-\-\-
+
 You can use 'shfmt $SHFMT_OPTS -w filename' to reformat each filename to meet shfmt's requirements.
+
 
 EOF
   fi
