@@ -134,10 +134,12 @@ if ((SHELLCHECK_DISABLE != 1)); then
     IFS= read -r -d '' shellcheck_error <<EOF
 
 'shellcheck $SHELLCHECK_OPTS' returned error $shellcheck_code finding the following syntactical issues:
-\-\-\-\-\-
+
+----------
 $shellcheck_output
-\-\-\-\-\-
-You can address these issues in on of three ways:
+----------
+
+You can address the above issues in on of three ways:
 1. Manually correct the issue in the offending shell script;
 2. Disable specific issues by adding the comment:
   # shellcheck disable=NNNN
@@ -163,12 +165,14 @@ if ((SHFMT_DISABLE != 1)); then
     IFS= read -r -d '' shfmt_error <<EOF
 
 'shfmt $SHFMT_OPTS' returned error $shfmt_code finding the following formatting issues:
-\-\-\-\-\-
+
+----------
 $shfmt_output
-\-\-\-\-\-
+----------
 
-You can use 'shfmt $SHFMT_OPTS -w filename' to reformat each filename to meet shfmt's requirements.
+You can reformat the above files to meet shfmt's requirements by typing:
 
+  shfmt $SHFMT_OPTS -w filename
 
 EOF
   fi
@@ -176,16 +180,16 @@ EOF
 fi
 
 if ((CHECKBASHISMS_ENABLE == 1)); then
-  printf 'Validating %d shell script(s) files using checkbashisms:\n' "${#sh_files[@]}"
+  printf '\n\nValidating %d shell script(s) files using checkbashisms:\n' "${#sh_files[@]}"
   checkbashisms "${sh_files[@]}"
   checkbashisms_code=$?
   if ((checkbashisms_code == 0)); then
-    printf 'checkbashisms found no issues.\n'
+    printf '\ncheckbashisms found no issues.\n'
   else
     printf '\ncheckbashisms returned error %d finding the bashisms listed above.\n' "$checkbashisms_code"
     if ((checkbashisms_code == 4)); then
       # see https://github.com/duggan/shlint/blob/0fcd979319e3f37c2cd53ccea0b51e16fda710a1/lib/checkbashisms#L489
-      printf "Ignoring 'could not find any possible bashisms in bash script' issues\\n"
+      printf "\\nIgnoring 'could not find any possible bashisms in bash script' issues\\n"
     else
       # checkbashisms returns 0-3: https://linux.die.net/man/1/checkbashisms
       ((exit_code |= (checkbashisms_code << 4)))
@@ -200,7 +204,7 @@ if ((shellcheck_code != 0 || shfmt_code != 0)); then
 fi
 
 if ((exit_code == 0)); then
-  printf 'No issues found in the %d shell script(s) scanned :)\n' "${#sh_files[@]}"
+  printf '\nNo issues found in the %d shell script(s) scanned :)\n' "${#sh_files[@]}"
 fi
 
 exit $exit_code
