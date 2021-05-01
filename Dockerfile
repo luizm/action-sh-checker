@@ -3,7 +3,7 @@ LABEL "name"="sh-checker"
 LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
 
 ARG shfmt_version=3.2.4
-ARG shellcheck_version=0.7.1
+ARG shellcheck_version=0.7.2
 
 RUN apk add --no-cache bash git jq curl checkbashisms \
     && apk add --no-cache --virtual .build-deps tar \
