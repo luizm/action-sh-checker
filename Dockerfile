@@ -2,7 +2,7 @@ FROM alpine:3.12.3
 LABEL "name"="sh-checker"
 LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
 
-ARG shfmt_version=3.2.4
+ARG shfmt_version=3.3.0
 ARG shellcheck_version=0.7.2
 
 RUN apk add --no-cache bash git jq curl checkbashisms \
