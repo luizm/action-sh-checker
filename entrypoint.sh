@@ -92,7 +92,7 @@ EOF
   local -r comment_url=$(jq -r .pull_request.comments_url <"$GITHUB_EVENT_PATH")
 
   echo "Commenting on the pull request"
-  curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data @- "$comment_url" <<<"$payload" >/dev/null
+  curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data @- "$comment_url" <<<"$payload"
 }
 
 _show_sh_files
