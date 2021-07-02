@@ -211,4 +211,5 @@ if ((exit_code == 0)); then
 	printf '\nNo issues found in the %d shell script(s) scanned :)\n' "${#sh_files[@]}"
 fi
 
+# shellcheck disable=SC2086
 exit $exit_code
