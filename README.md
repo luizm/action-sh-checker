@@ -1,5 +1,7 @@
 # sh-checker
 
+[![Build](https://github.com/luizm/action-sh-checker/actions/workflows/ci.yml/badge.svg)](https://github.com/luizm/action-sh-checker/actions/workflows/ci.yml)
+
 A [GitHub action](https://docs.github.com/en/free-pro-team@latest/actions) that performs static analysis of shell scripts using [shellcheck](https://github.com/koalaman/shellcheck), [shfmt](https://github.com/mvdan/sh) and [checkbashisms](https://linux.die.net/man/1/checkbashisms)
 
 ![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
