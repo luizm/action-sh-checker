@@ -1,5 +1,5 @@
 ---
-name: Github Action
+name: Build
 
 on:
   push:
