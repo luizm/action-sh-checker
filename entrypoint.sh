@@ -82,9 +82,7 @@ $1
 <details>
 <summary>shfmt errors</summary>
 
-\`\`\`
 $2
-\`\`\`
 </details>
 
 EOF
@@ -170,9 +168,9 @@ if ((SHFMT_DISABLE != 1)); then
 
 'shfmt $SHFMT_OPTS' returned error $shfmt_code finding the following formatting issues:
 
-----------
+\`\`\`diff
 $shfmt_output
-----------
+\`\`\`
 
 You can reformat the above files to meet shfmt's requirements by typing:
 
