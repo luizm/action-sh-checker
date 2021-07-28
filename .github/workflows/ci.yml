@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: sh-checker
-        uses: luizm/action-sh-checker@master
+        uses: ./
         with:
           sh_checker_comment: true
         env:
