@@ -150,6 +150,11 @@ EOF
 	printf '%s' "$shellcheck_error"
 fi
 
+
+
+
+
+
 if ((SHFMT_DISABLE != 1)); then
 	printf "Validating %d shell script(s) using 'shfmt %s':\\n" "${#sh_files[@]}" "$SHFMT_OPTS"
 	IFS=$' \t\n' read -d '' -ra args <<<"$SHFMT_OPTS"
