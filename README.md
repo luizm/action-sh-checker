@@ -19,7 +19,7 @@ jobs:
   sh-checker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Run the sh-checker
         uses: luizm/action-sh-checker@master
         env:
