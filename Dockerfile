@@ -1,11 +1,11 @@
-FROM alpine:3.12.3
+FROM alpine:3.16.0
 LABEL "name"="sh-checker"
 LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
 
-ARG shfmt_version=3.4.3
+ARG shfmt_version=3.5.1
 ARG shellcheck_version=0.8.0
 
-RUN apk add --no-cache bash git jq curl checkbashisms \
+RUN apk add --no-cache bash git jq curl checkbashisms xz \
     && apk add --no-cache --virtual .build-deps tar \
     && wget "https://github.com/mvdan/sh/releases/download/v${shfmt_version}/shfmt_v${shfmt_version}_linux_amd64" -O /usr/local/bin/shfmt \
     && chmod +x /usr/local/bin/shfmt \
