@@ -202,7 +202,7 @@ if ((CHECKBASHISMS_ENABLE == 1)); then
 fi
 
 if ((shellcheck_code != 0 || shfmt_code != 0)); then
-	if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && ((SH_CHECKER_COMMENT == 1)); then
+	if [[ "$GITHUB_EVENT_NAME" == "pull_request" || "$GITHUB_EVENT_NAME" == "pull_request_target" ]] && ((SH_CHECKER_COMMENT == 1)); then
 		_comment_on_github "$shellcheck_error" "$shfmt_error"
 	fi
 fi
