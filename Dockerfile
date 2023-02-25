@@ -11,8 +11,12 @@ RUN apk add --no-cache bash git jq curl checkbashisms xz \
     && chmod +x /usr/local/bin/shfmt \
     && wget "https://github.com/koalaman/shellcheck/releases/download/v${shellcheck_version}/shellcheck-v${shellcheck_version}.linux.x86_64.tar.xz"  -O- | tar xJ -C /usr/local/bin/ --strip-components=1 --wildcards '*/shellcheck' \
     && chmod +x /usr/local/bin/shellcheck \
+    && curl -L https://github.com/cli/cli/releases/download/v2.23.0/gh_2.23.0_linux_amd64.tar.gz | tar xz -C /usr/local/ --strip-components=1 \
     && apk del --no-cache .build-deps \
     && rm -rf /tmp/*
+
+# https://github.com/actions/runner-images/issues/6775#issuecomment-1410270956
+RUN git config --system --add safe.directory /github/workspace
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

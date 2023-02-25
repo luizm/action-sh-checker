@@ -39,6 +39,8 @@ jobs:
 
 ### Inputs
 
+`sh_checker_only_diff`: (optional) Only check the files that were changed in the pull request. Default is to check all files in the repo.
+
 `sh_checker_exclude`: (optional) Directory or file name that doesn't need to be checked.
 
 `sh_checker_comment`: (optional) If true, it will show the errors as commentaries in the pull requests. Default is false.
@@ -50,4 +52,4 @@ jobs:
 `sh_checker_checkbashisms_enable`: (optional) If true, run checkbashisms tool against scripts. Default is false.
 ### Secrets
 
-`GITHUB_TOKEN`: (optional) The GitHub API token used to post comments to pull requests. Not required if `sh_checker_comment` is set to false.
+`GITHUB_TOKEN`: The GitHub API token used to post comments to pull requests. Required only if `sh_checker_only_diff` or `sh_checker_comment` is set to true.

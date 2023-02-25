@@ -21,6 +21,9 @@ inputs:
   sh_checker_comment:
     description: "If true, it will show the errors as commentaries in the pull requests. Default is false"
     required: false
+  sh_checker_only_diff:
+    description: "If true, run only on files changed in the PR branch. Default is false"
+    required: false
 runs:
   using: "docker"
   image: "Dockerfile"
