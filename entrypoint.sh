@@ -9,6 +9,7 @@ SHELLCHECK_DISABLE=0
 SHFMT_DISABLE=0
 SH_CHECKER_COMMENT=0
 CHECKBASHISMS_ENABLE=0
+SH_CHECKER_ONLY_DIFF=0
 
 shopt -s nocasematch
 
@@ -28,15 +29,35 @@ if [[ "${INPUT_SH_CHECKER_CHECKBASHISMS_ENABLE}" =~ ^(1|true|on|yes)$ ]]; then
 	CHECKBASHISMS_ENABLE=1
 fi
 
+if [[ "${INPUT_SH_CHECKER_ONLY_DIFF}" =~ ^(1|true|on|yes)$ ]]; then
+	SH_CHECKER_ONLY_DIFF=1
+fi
+
 if ((SHELLCHECK_DISABLE == 1 && SHFMT_DISABLE == 1 && CHECKBASHISMS_ENABLE != 1)); then
 	echo "All checks are disabled: \`sh_checker_shellcheck_disable\` and \`sh_checker_shfmt_disable\` are both set to 1/true."
 fi
 
 # Internal functions
 _show_sh_files() {
+	# Store the array of files to check in sh_files
 	# using a global, as returning arrays in bash is ugly
 	# setting IFS to \n allows for spaces in file names:
-	IFS=$'\n' mapfile -t sh_files < <(shfmt -f .)
+	if ((SH_CHECKER_ONLY_DIFF == 1)); then
+		# Compute the intersection of all shell scripts in the repo and files changes on the PR branch
+		if [[ "$GITHUB_REF" =~ ^refs/pull/ ]]; then
+			# The `on: pull_request` trigger does not give branch information, so we need to supply the PR number to gh
+			# See https://frontside.com/blog/2020-05-26-github-actions-pull_request/
+			# and https://docs.github.com/en/actions/learn-github-actions/variables
+			pr_number="$(echo "$GITHUB_REF" | cut -d/ -f3)"
+		else
+			pr_number="" # have gh figure out the PR number from the branch name
+		fi
+		IFS=$'\n' mapfile -t sh_files < <(sort <(shfmt -f .) <(gh pr diff "$pr_number" --name-only) | uniq -d)
+		echo "Checking only the shell script(s) changed in the PR branch:"
+		printf '"%s"\n' "${sh_files[@]}"
+	else
+		IFS=$'\n' mapfile -t sh_files < <(shfmt -f .)
+	fi
 
 	if [ -z "$INPUT_SH_CHECKER_EXCLUDE" ]; then
 		return 0
@@ -98,7 +119,7 @@ EOF
 _show_sh_files
 
 ((${#sh_files[@]} == 0)) && {
-	if ((ONLY_DIFF == 1)); then
+	if ((SH_CHECKER_ONLY_DIFF == 1)); then
 		echo "No shell scripts were changed."
 		exit 0
 	fi

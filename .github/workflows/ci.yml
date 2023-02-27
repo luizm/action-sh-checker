@@ -20,8 +20,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: sh-checker
-        uses: luizm/action-sh-checker@master
+        uses: ./. # Use the local action, at the current version
         with:
           sh_checker_comment: true
+          sh_checker_only_diff: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
