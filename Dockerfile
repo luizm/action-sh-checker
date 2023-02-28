@@ -2,8 +2,9 @@ FROM alpine:3.16.0
 LABEL "name"="sh-checker"
 LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
 
-ARG shfmt_version=3.5.1
-ARG shellcheck_version=0.8.0
+ARG shfmt_version=3.6.0
+ARG shellcheck_version=0.9.0
+ARG gh_version=2.23.0
 
 RUN apk add --no-cache bash git jq curl checkbashisms xz \
     && apk add --no-cache --virtual .build-deps tar \
@@ -11,7 +12,7 @@ RUN apk add --no-cache bash git jq curl checkbashisms xz \
     && chmod +x /usr/local/bin/shfmt \
     && wget "https://github.com/koalaman/shellcheck/releases/download/v${shellcheck_version}/shellcheck-v${shellcheck_version}.linux.x86_64.tar.xz"  -O- | tar xJ -C /usr/local/bin/ --strip-components=1 --wildcards '*/shellcheck' \
     && chmod +x /usr/local/bin/shellcheck \
-    && curl -L https://github.com/cli/cli/releases/download/v2.23.0/gh_2.23.0_linux_amd64.tar.gz | tar xz -C /usr/local/ --strip-components=1 \
+    && curl -L https://github.com/cli/cli/releases/download/v${gh_version}/gh_${gh_version}_linux_amd64.tar.gz | tar xz -C /usr/local/ --strip-components=1 \
     && apk del --no-cache .build-deps \
     && rm -rf /tmp/*
 
