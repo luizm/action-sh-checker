@@ -1,10 +1,10 @@
-FROM alpine:3.16.0
+FROM alpine:3.18.4
 LABEL "name"="sh-checker"
 LABEL "maintainer"="Luiz Muller <contact@luizm.dev>"
 
-ARG shfmt_version=3.6.0
+ARG shfmt_version=3.7.0
 ARG shellcheck_version=0.9.0
-ARG gh_version=2.23.0
+ARG gh_version=2.37.0
 
 RUN apk add --no-cache bash git jq curl checkbashisms xz \
     && apk add --no-cache --virtual .build-deps tar \
