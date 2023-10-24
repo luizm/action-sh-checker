@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2312 # (info): Consider invoking this command separately to avoid masking its return value (or use '|| true' to ignore).
 
 set -e
 
 if command -v curl >/dev/null; then
-  dl="curl -s -K /dev/null"
+  # -sq == --silent --disable
+  dl="curl -sq"
 else
+  # -q0 == --quiet --output-document
   dl='wget --no-config -qO -'
 fi
 
