@@ -6,12 +6,11 @@ A [GitHub action](https://docs.github.com/en/free-pro-team@latest/actions) that 
 
 ![Screen Shot 2020-04-01 at 12 18 59](https://user-images.githubusercontent.com/6004689/78155536-f9a8a080-7413-11ea-8b5c-2c96484feb61.png)
 
-
 ## Usage
 
 Job example to check all sh files but ignore the directory `.terraform` and file `dir/example.sh`
 
-```
+```yaml
 name: example
 on:
   - pull_request
@@ -50,6 +49,7 @@ jobs:
 `sh_checker_shellcheck_disable`: (optional) If true, it will skip shellcheck. Default is false.
 
 `sh_checker_checkbashisms_enable`: (optional) If true, run checkbashisms tool against scripts. Default is false.
+
 ### Secrets
 
 `GITHUB_TOKEN`: The GitHub API token used to post comments to pull requests. Required only if `sh_checker_only_diff` or `sh_checker_comment` is set to true.
